@@ -1,6 +1,6 @@
 module github.com/ethereum/go-ethereum
 
-go 1.19
+go 1.18
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v0.3.0
@@ -56,6 +56,7 @@ require (
 	github.com/stretchr/testify v1.8.1
 	github.com/supranational/blst v0.3.8-0.20220526154634-513d2456b344
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
+	github.com/triplewz/poseidon v0.0.0-20220525065023-a7cdb0e183e7
 	github.com/tyler-smith/go-bip39 v1.1.0
 	github.com/urfave/cli/v2 v2.17.2-0.20221006022127-8f469abc00aa
 	golang.org/x/crypto v0.1.0

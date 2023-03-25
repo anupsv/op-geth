@@ -141,7 +141,9 @@ const (
 	// Precompiled contract gas prices
 
 	EcrecoverGas        uint64 = 3000 // Elliptic curve sender recovery gas price
+	PoseidonBaseGas     uint64 = 60   // Base price for a SHA256 operation
 	Sha256BaseGas       uint64 = 60   // Base price for a SHA256 operation
+	PoseidonPerWordGas  uint64 = 12   // Per-word price for a SHA256 operation
 	Sha256PerWordGas    uint64 = 12   // Per-word price for a SHA256 operation
 	Ripemd160BaseGas    uint64 = 600  // Base price for a RIPEMD160 operation
 	Ripemd160PerWordGas uint64 = 120  // Per-word price for a RIPEMD160 operation

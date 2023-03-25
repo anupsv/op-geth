@@ -29,6 +29,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto/bls12381"
 	"github.com/ethereum/go-ethereum/crypto/bn256"
 	"github.com/ethereum/go-ethereum/params"
+	"github.com/triplewz/poseidon"
 	"golang.org/x/crypto/ripemd160"
 )
 
@@ -153,6 +154,20 @@ func RunPrecompiledContract(p PrecompiledContract, input []byte, suppliedGas uin
 	suppliedGas -= gasCost
 	output, err := p.Run(input)
 	return output, suppliedGas, err
+}
+
+type poseidonHash struct{}
+
+func (c *poseidonHash) RequiredGas(input []byte) uint64 {
+	return uint64(len(input)+31)/32*params.PoseidonPerWordGas + params.PoseidonBaseGas
+}
+
+func (c *poseidonHash) Run() uint64 {
+	input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
+	cons, _ := poseidon.GenPoseidonConstants(len(input) + 1)
+	h3, _ := poseidon.Hash(input, cons, poseidon.Correct)
+	var smallnum, _ = new(big.Int).SetString(h3.String(), 10)
+	return smallnum.Uint64()
 }
 
 // ECRECOVER implemented as a native contract.
