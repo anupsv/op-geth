@@ -29,7 +29,6 @@ import (
 	"github.com/ethereum/go-ethereum/crypto/bls12381"
 	"github.com/ethereum/go-ethereum/crypto/bn256"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/triplewz/poseidon"
 	"golang.org/x/crypto/ripemd160"
 )
 
@@ -80,16 +79,16 @@ var PrecompiledContractsIstanbul = map[common.Address]PrecompiledContract{
 // PrecompiledContractsBerlin contains the default set of pre-compiled Ethereum
 // contracts used in the Berlin release.
 var PrecompiledContractsBerlin = map[common.Address]PrecompiledContract{
-	common.BytesToAddress([]byte{1}):   &ecrecover{},
-	common.BytesToAddress([]byte{2}):   &sha256hash{},
-	common.BytesToAddress([]byte{3}):   &ripemd160hash{},
-	common.BytesToAddress([]byte{4}):   &dataCopy{},
-	common.BytesToAddress([]byte{5}):   &bigModExp{eip2565: true},
-	common.BytesToAddress([]byte{6}):   &bn256AddIstanbul{},
-	common.BytesToAddress([]byte{7}):   &bn256ScalarMulIstanbul{},
-	common.BytesToAddress([]byte{8}):   &bn256PairingIstanbul{},
-	common.BytesToAddress([]byte{9}):   &blake2F{},
-	common.BytesToAddress([]byte{100}): &poseidonHash{},
+	common.BytesToAddress([]byte{1}):    &ecrecover{},
+	common.BytesToAddress([]byte{2}):    &sha256hash{},
+	common.BytesToAddress([]byte{3}):    &ripemd160hash{},
+	common.BytesToAddress([]byte{4}):    &dataCopy{},
+	common.BytesToAddress([]byte{5}):    &bigModExp{eip2565: true},
+	common.BytesToAddress([]byte{6}):    &bn256AddIstanbul{},
+	common.BytesToAddress([]byte{7}):    &bn256ScalarMulIstanbul{},
+	common.BytesToAddress([]byte{8}):    &bn256PairingIstanbul{},
+	common.BytesToAddress([]byte{9}):    &blake2F{},
+	common.BytesToAddress([]byte{1, 0}): &poseidonHash{},
 }
 
 // PrecompiledContractsBLS contains the set of pre-compiled Ethereum
@@ -160,15 +159,16 @@ func RunPrecompiledContract(p PrecompiledContract, input []byte, suppliedGas uin
 type poseidonHash struct{}
 
 func (c *poseidonHash) RequiredGas(input []byte) uint64 {
-	return uint64(len(input)+31)/32*params.PoseidonPerWordGas + params.PoseidonBaseGas
+	//return uint64(len(input)+31)/32*params.PoseidonPerWordGas + params.PoseidonBaseGas
+	return uint64(1024)
 }
 
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
-	_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
-	cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
-	h3, _ := poseidon.Hash(_input, cons, poseidon.Correct)
-	var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
-	return smallNum.Bytes(), nil
+	//_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
+	//cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
+	//h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
+	//var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
+	return []byte{1, 0}, nil
 }
 
 // ECRECOVER implemented as a native contract.
