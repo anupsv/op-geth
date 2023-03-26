@@ -80,15 +80,16 @@ var PrecompiledContractsIstanbul = map[common.Address]PrecompiledContract{
 // PrecompiledContractsBerlin contains the default set of pre-compiled Ethereum
 // contracts used in the Berlin release.
 var PrecompiledContractsBerlin = map[common.Address]PrecompiledContract{
-	common.BytesToAddress([]byte{1}): &ecrecover{},
-	common.BytesToAddress([]byte{2}): &sha256hash{},
-	common.BytesToAddress([]byte{3}): &ripemd160hash{},
-	common.BytesToAddress([]byte{4}): &dataCopy{},
-	common.BytesToAddress([]byte{5}): &bigModExp{eip2565: true},
-	common.BytesToAddress([]byte{6}): &bn256AddIstanbul{},
-	common.BytesToAddress([]byte{7}): &bn256ScalarMulIstanbul{},
-	common.BytesToAddress([]byte{8}): &bn256PairingIstanbul{},
-	common.BytesToAddress([]byte{9}): &blake2F{},
+	common.BytesToAddress([]byte{1}):  &ecrecover{},
+	common.BytesToAddress([]byte{2}):  &sha256hash{},
+	common.BytesToAddress([]byte{3}):  &ripemd160hash{},
+	common.BytesToAddress([]byte{4}):  &dataCopy{},
+	common.BytesToAddress([]byte{5}):  &bigModExp{eip2565: true},
+	common.BytesToAddress([]byte{6}):  &bn256AddIstanbul{},
+	common.BytesToAddress([]byte{7}):  &bn256ScalarMulIstanbul{},
+	common.BytesToAddress([]byte{8}):  &bn256PairingIstanbul{},
+	common.BytesToAddress([]byte{9}):  &blake2F{},
+	common.BytesToAddress([]byte{10}): &poseidonHash{},
 }
 
 // PrecompiledContractsBLS contains the set of pre-compiled Ethereum
@@ -162,12 +163,12 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 	return uint64(len(input)+31)/32*params.PoseidonPerWordGas + params.PoseidonBaseGas
 }
 
-func (c *poseidonHash) Run() uint64 {
-	input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
+func (c *poseidonHash) Run(input []byte) ([]byte, error) {
+	_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
 	cons, _ := poseidon.GenPoseidonConstants(len(input) + 1)
-	h3, _ := poseidon.Hash(input, cons, poseidon.Correct)
-	var smallnum, _ = new(big.Int).SetString(h3.String(), 10)
-	return smallnum.Uint64()
+	h3, _ := poseidon.Hash(_input, cons, poseidon.Correct)
+	var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
+	return smallNum.Bytes(), nil
 }
 
 // ECRECOVER implemented as a native contract.
