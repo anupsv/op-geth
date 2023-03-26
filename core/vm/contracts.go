@@ -168,7 +168,7 @@ func (c *poseidonHash) Run(input []byte) ([]byte, error) {
 	//cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
 	//h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
 	//var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
-	return []byte{1, 0}, nil
+	return input, nil
 }
 
 // ECRECOVER implemented as a native contract.
