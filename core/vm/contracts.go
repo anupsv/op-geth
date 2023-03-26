@@ -165,7 +165,7 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
 	_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
-	cons, _ := poseidon.GenPoseidonConstants(len(input) + 1)
+	cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
 	h3, _ := poseidon.Hash(_input, cons, poseidon.Correct)
 	var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
 	return smallNum.Bytes(), nil
