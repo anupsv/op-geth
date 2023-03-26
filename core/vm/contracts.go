@@ -20,6 +20,7 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
+	"github.com/triplewz/poseidon"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -164,11 +165,10 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 }
 
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
-	//_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
-	//cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
-	//h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
-	//var smallNum, _ = new(big.Int).SetString(h3.String(), 10)
-	return input, nil
+	_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
+	cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
+	h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
+	return h3.Bytes(), nil
 }
 
 // ECRECOVER implemented as a native contract.
