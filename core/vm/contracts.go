@@ -164,9 +164,8 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 	return uint64(1024)
 }
 
-func (c *poseidonHash) Run(inputs []byte) ([]byte, error) {
+func (c *poseidonHash) Run(input []byte) ([]byte, error) {
 	var _input []*big.Int
-	input := []byte{112, 111, 115, 101, 105, 100, 111, 110, 32, 104, 97, 115, 104, 32, 100, 101, 109, 111, 32, 102, 111, 114, 32, 104, 97, 99, 107, 97, 116, 104, 111, 110}
 	for _, element := range input {
 		_input = append(_input, big.NewInt(int64(element)))
 	}
