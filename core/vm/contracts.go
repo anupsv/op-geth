@@ -20,7 +20,6 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
-	"fmt"
 	"github.com/triplewz/poseidon"
 	"math/big"
 
@@ -165,18 +164,12 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 	return uint64(1024)
 }
 
-func (c *poseidonHash) Run(input []byte) ([]byte, error) {
+func (c *poseidonHash) Run(inputs []byte) ([]byte, error) {
 	var _input []*big.Int
-	fmt.Println("------>")
-	fmt.Println(input)
-	fmt.Println("------>")
+	input := []byte{112, 111, 115, 101, 105, 100, 111, 110, 32, 104, 97, 115, 104, 32, 100, 101, 109, 111, 32, 102, 111, 114, 32, 104, 97, 99, 107, 97, 116, 104, 111, 110}
 	for _, element := range input {
 		_input = append(_input, big.NewInt(int64(element)))
 	}
-	fmt.Println("<-----")
-	fmt.Println(_input)
-	fmt.Println("<-----")
-	//_input := []*big.Int{big.NewInt(1), big.NewInt(2), big.NewInt(3)}
 	cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
 	h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
 	return h3.Bytes(), nil
