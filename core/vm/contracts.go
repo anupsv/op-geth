@@ -168,16 +168,14 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
 	fmt.Println("input")
 	fmt.Println(input)
-	input = common.RightPadBytes(input, 32)
-	fmt.Println("input after the shift")
-	fmt.Println(input)
+	fmt.Println("Access")
+	fmt.Println(input[4:])
+
 	//var _input []*big.Int
 	//for _, element := range input {
 	//	_input = append(_input, big.NewInt(int64(element)))
 	//}
-	h3, _ := poseidon.HashBytes(input)
-	fmt.Println("h3")
-	fmt.Println(h3)
+	h3, _ := poseidon.HashBytes(input[4:])
 	return h3.Bytes(), nil
 }
 
