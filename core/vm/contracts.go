@@ -165,7 +165,7 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 }
 
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
-	input = common.RightPadBytes(input, 32)
+	//input = common.RightPadBytes(input, 32)
 	var _input []*big.Int
 	for _, element := range input {
 		_input = append(_input, big.NewInt(int64(element)))
