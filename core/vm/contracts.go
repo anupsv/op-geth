@@ -20,7 +20,8 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
-	"github.com/triplewz/poseidon"
+	"fmt"
+	"github.com/iden3/go-iden3-crypto/poseidon"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -165,13 +166,16 @@ func (c *poseidonHash) RequiredGas(input []byte) uint64 {
 }
 
 func (c *poseidonHash) Run(input []byte) ([]byte, error) {
+	fmt.Println("input")
+	fmt.Println(input)
 	//input = common.RightPadBytes(input, 32)
-	var _input []*big.Int
-	for _, element := range input {
-		_input = append(_input, big.NewInt(int64(element)))
-	}
-	cons, _ := poseidon.GenPoseidonConstants(len(_input) + 1)
-	h3, _ := poseidon.Hash(_input, cons, poseidon.OptimizedDynamic)
+	//var _input []*big.Int
+	//for _, element := range input {
+	//	_input = append(_input, big.NewInt(int64(element)))
+	//}
+	h3, _ := poseidon.HashBytes(input)
+	fmt.Println("h3")
+	fmt.Println(h3)
 	return h3.Bytes(), nil
 }
 
